@@ -9,4 +9,4 @@ Let's first extract only the numerical predictors from the dataset to look at th
 <br /><br /><br />
 The upper-left matrix indicates that there are high correlations among the player’s performance records, such as the numbers of walks, RBI, runs, homeruns, hits, and at bat; it is more prominent over the period of player’s career than the season. Three most highly correlated predictors to the salary are CAtBat (Number of times at bat in the career), AtBat (Number of times at bat in the season), and Hits (Number of hits in the season).
 
-We can learn from the plots below that the correlation between salary and player's at bat records is more prominent through the period of career than the season. This is presumably due to the larger sampling of observations over a longer period of time.
+We can learn from the plots below that the correlation between the salary and the player's at bat records is more prominent through the period of career than the season. This is presumably due to the larger sampling of observations over a longer period of time.
