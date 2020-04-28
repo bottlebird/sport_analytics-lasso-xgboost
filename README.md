@@ -4,10 +4,9 @@ Sport analytics started to gain its popularity after the Oakland A's applied dat
 Here I predicted the salary of baseball players based on the dataset that contains information on 263 players from the MLB in 1986. The first column reports the player names, the second column reports the player annual salaries (in $’000), which I aim to predict. The other variables report four sets of variables: offensive statistics during the season, offensive statistics over the player’s career, defensive statistics, and team information.
 
 ## Explore the dataset
-Let's first extract only the numerical predictors from the dataset to look at their correlations between each other.<br />
+Let's first extract only the numerical predictors from the dataset to look at their correlations between each other.<br /><br />
 <img src="./img/1.a_1.png" width="300" align='left'>    <img src="./img/1.a_2.png" width="550">
-<br /><br /><br />
-
+<br /><br />
 From the upper-left matrix, we can see that there are high correlations among the player’s performance records, such as the numbers of walks, RBI, runs, homeruns, hits, and at bat; it is more prominent over the period of player’s career than the season.
 
 If we look at the predictors that are correlated with the salary, three most highly correlated ones are CAtBat (Number of times at bat in the career), AtBat (Number of times at bat in the season), and Hits (Number of hits in the season). As can be seen in the matrix above, we can learn from the plots below that there is a stronger correlation between the salary and the player’s at bat record over the period of career than the season. This is presumably due to the larger sampling of observations over a longer period of time.
