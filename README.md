@@ -4,7 +4,7 @@ Sport analytics started to gain its popularity after the Oakland A's applied dat
 Here I predicted the salary of baseball players based on the dataset that contains information on 263 players from the MLB in 1986. The first column reports the player names, the second column reports the player annual salaries (in $’000), which I aim to predict. The other variables report four sets of variables: offensive statistics during the season, offensive statistics over the player’s career, defensive statistics, and team information.
 
 ## Explore the dataset
-Let's first extract only the numerical predictors from the dataset to look at their correlations between each other.<br /><br />
+Let's first extract only the numerical predictors from the dataset to look at their correlations between each other.<br />
 <p align="center">
 <img src="./img/1.a_1.png" width="400" align='middle'>
 </p>
