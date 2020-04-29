@@ -5,6 +5,12 @@ Here I predicted the salary of baseball players based on the dataset that contai
 
 ## Data Exploration
 Let's first extract only the numerical predictors from the dataset to look at their correlations between each other.<br />
+```bash
+hitters_raw <- read.csv("Hitters.csv")
+hitters_num <-hitters_raw[,2:18]
+ggcorrplot(round(cor(hitters_num),1), method="circle", 
+           tl.col = "black", tl.cex = 15, lab=TRUE)
+```
 <p align="center">
 <img src="./img/1.a_1.png" width="400" align='middle'>
 </p>
