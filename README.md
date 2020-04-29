@@ -11,3 +11,6 @@ The upper-left matrix indicates that there are high correlations among the playe
 
 We can learn from the plots below that the correlation between the salary and the player's at bat records is more prominent through the period of career than the season. This is presumably due to the larger sampling of observations over a longer period of time.
 <br />
+
+<img src="./img/1.a_3.png" width="400" align='left'>    <img src="./img/1.a_4.png" width="400">
+<img src="./img/1.a_5.png" width="400">
