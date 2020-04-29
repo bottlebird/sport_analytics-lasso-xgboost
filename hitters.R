@@ -5,7 +5,8 @@ library(caret)
 
 hitters_raw <- read.csv("Hitters.csv")
 hitters_num <-hitters_raw[,2:18]
-ggcorrplot(round(cor(hitters_num),1), method="circle")
+ggcorrplot(round(cor(hitters_num),1), method="circle", 
+           tl.col = "black",tl.srt = 45, tl.cex = 15, lab=TRUE)
 round(cor(hitters_num),1)
 
 lm.mod <- lm(Salary ~., data = hitters_num)
