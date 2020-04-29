@@ -5,12 +5,13 @@ Here I predicted the salary of baseball players based on the dataset that contai
 
 ## Explore the dataset
 Let's first extract only the numerical predictors from the dataset to look at their correlations between each other.<br /><br />
-<img src="./img/1.a_1.png" width="300" align='left'>    <img src="./img/1.a_2.png" width="560">
-<br /><br /><br />
-The upper-left matrix indicates that there are high correlations among the player’s performance records, such as the numbers of walks, RBI, runs, homeruns, hits, and at bat; it is more prominent over the period of player’s career than the season. Three most highly correlated predictors to the salary are CAtBat (Number of times at bat in the career), AtBat (Number of times at bat in the season), and Hits (Number of hits in the season).
+<img src="./img/1.a_1.png" width="400" align='middle'>
+
+The matrix above indicates that there are high correlations among the player’s performance records, such as the numbers of walks, RBI, runs, homeruns, hits, and at bat; it is more prominent over the period of player’s career than the season. Three most highly correlated predictors to the salary are CAtBat (Number of times at bat in the career), AtBat (Number of times at bat in the season), and Hits (Number of hits in the season).
 
 We can learn from the plots below that the correlation between the salary and the player's at bat records is more prominent through the period of career than the season. This is presumably due to the larger sampling of observations over a longer period of time.
 <br />
 
-<img src="./img/1.a_3.png" width="400" align='left'>    <img src="./img/1.a_4.png" width="400">
-<img src="./img/1.a_5.png" width="400">
+<img src="./img/1.a_2.png" width="400" align='left'>
+<img src="./img/1.a_3.png" width="400">
+<img src="./img/1.a_4.png" width="400">
