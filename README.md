@@ -16,16 +16,18 @@ ggcorrplot(round(cor(hitters_num),1), method="circle",
 </p>
 The matrix above indicates that there are high correlations among the player’s performance records, such as the numbers of walks, RBI, runs, homeruns, hits, and at bat. Furthermore, the correlation is more prominent over the period of player’s career than the season, presumably due to the larger pool of samples. The two most highly correlated predictors to the salary are CRuns (Number of runs in the career) and CRBI (Number of runs enabled in the career). Although we can tell those two predictors have any sorts of relationship with the salary, it does not imply causation. There are several possible explanations: (a) A influences B; (b) B influences A; and (c) A and B are influenced by one or more additional variables.
 <br /><br />
-Now let's look at the p-values of the predictors. 
+Now let's look at the p-values of the predictors.
+
 ```bash
 lm.mod <- lm(Salary ~., data = hitters_num)
 summary(lm.mod)
 ```
-The p-values below indicate that AtBat (Number of times at bat in the season), Walks (Number of walks in the season), and PutOuts (Number of putouts in the season) are statistically significant, meaning they effect strongly on the salary variable.
-<br />
 <p align="center">
 <img src="./img/1.a_p.png" width="400" align='middle'>
 </p>
+The p-values above indicate that AtBat (Number of times at bat in the season), Walks (Number of walks in the season), and PutOuts (Number of putouts in the season) are statistically significant, meaning they effect strongly on the salary variable.
+<br />
+
 
 <br />
 
