@@ -14,9 +14,13 @@ ggcorrplot(round(cor(hitters_num),1), method="circle",
 <p align="center">
 <img src="./img/1.a_1.png" width="400" align='middle'>
 </p>
-The matrix above indicates that there are high correlations among the player’s performance records, such as the numbers of walks, RBI, runs, homeruns, hits, and at bat. Furthermore, the correlation is more prominent over the period of player’s career than the season, presumably due to the larger pool of samples. The two most highly correlated predictors to the salary are CRuns (Number of runs in the career) and CRBI (Number of runs enabled in the career). Although we can tell those two predictors have any sorts of relationship with the salary, it does not imply causation. There are several possible explanations: (a) A influences B; (b) B influences A; and (c) A and B are influenced by one or more additional variables.
+For the player's statistics during the season (lower-left box cluster), AtBat(the number of times at bat) and Hits (the number of hits) are highly correlated with Runs (the number of runs). For the player's statistics during the career (upper-right box cluster), all the predictors are highly correlated to each other. 
+
+Considering the baseball's game rules, these observations are valid.
+
+If we look at the predictors that are correlated to the salary, CRuns (Number of runs in the career) and CRBI (Number of runs enabled in the career) show relatively high correlation. However, it does not imply causation. There are several possible explanations: (a) A influences B; (b) B influences A; and (c) A and B are influenced by one or more additional variables.
 <br /><br />
-Now let's look at the p-values of the predictors.
+Now let's look at the p-values of the predictors to understand the relationships between the salary and other predictors.
 
 ```bash
 lm.mod <- lm(Salary ~., data = hitters_num)
@@ -25,12 +29,43 @@ summary(lm.mod)
 <p align="center">
 <img src="./img/1.a_p.png" width="400" align='middle'>
 </p>
-The p-values above indicate that AtBat (Number of times at bat in the season), Walks (Number of walks in the season), and PutOuts (Number of putouts in the season) are statistically significant, meaning they effect strongly on the salary variable.
-<br />
+The predictors with the significance at the 95% level are AtBat, Hits, Walks, CRuns, CWalks, and PutOuts, meaning these predictors effect strongly on the salary variable.
 
+The in-sample and out-of-sample R2 are 0.5603 and 0.4004 respectively. Given the dataset as visualized in Question a, these outcomes are expected.
 
 <br />
 
 <img src="./img/1.a_2.png" width="400" align='left'>
 <img src="./img/1.a_3.png" width="400">
+<br />
+Likewise, the player’s salary increases as the number of hits in the season increases.
+<br />
 <img src="./img/1.a_4.png" width="400">
+
+<br />
+
+## Fit a linear regression model using training set
+
+The data is normalized and split into a training set and a test set in a ratio of 7:3. The linear regression model was created using all the predictors of the training set. The summary of linear regression model indicates that variables with the high significance at the level of 95 % (p values < 0.05) are AtBat, Hits, Walks, CWalks, and PutOuts. These variables have the most impact on the salary variables. From the signs of coefficient values, we can learn that the number of times at bat in the season and the number of walks in the career are negatively correlated with the salary. Likewise, the numbers of hits, walks, putouts in the season are positively correlated with the salary.
+<br />
+
+In-sample 𝑅^2
+
+<br />
+The in-sample and out-of-sample 𝑅!are 0.5603 and 0.4004 respectively. Considering the large number of outliers observed in the visualization in a) and the value of residual standard error (0.7092) shown above, these outcomes are expected.
+
+## Fit a restricted linear regression model selecting only the predictors with significance
+<br />
+Five predictors with p value under 0.05 were selected to fit a linear regression model. The insample and out-of-sample 𝑅! are 0.4337 and 0.42496 respectively. The accuracy of in-sampleprediction has worsened, whereas that of out-of-sample has improved slightly. These poor results are unexpected, considering only the predictors with high significance were selected to fit the model.
+
+<br /><br />
+In-sample coefficients and 𝑅^2 Out-of-sample 𝑅^2<br />
+capture of result
+<br /><br />
+Only includes only those significant variables with stars.
+Full -> remove insignificant variables -> remove multicollinear variable
+
+## Regularization
+i) Train Ridge regression and LASSO models with 10-fold cross-validation
+
+Plots of cross-validated Mean Squared Error as a function of l:

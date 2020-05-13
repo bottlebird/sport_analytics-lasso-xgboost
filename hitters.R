@@ -12,19 +12,19 @@ round(cor(hitters_num),1)
 lm.mod <- lm(Salary ~., data = hitters_num)
 summary(lm.mod)
 
-#Plot Salary vs. CAtBat
-plot(hitters_num$CAtBat,hitters_num$Salary, 
-     xlab='Number of times at bat in the career', 
-     ylab='Annual salary ($ in thousands)',cex.lab=1.1)
-abline(lm(hitters_num$Salary ~ hitters_num$CAtBat), col="blue")
-
 #Plot Salary vs. AtBat
 plot(hitters_num$AtBat,hitters_num$Salary, 
      xlab='Number of times at bat in the season', 
      ylab='Annual salary ($ in thousands)',cex.lab=1.1)
 abline(lm(hitters_num$Salary ~ hitters_num$AtBat), col="blue")
 
-#Plot Salary vs. Hits
+#Plot Salary vs. Walks
+plot(hitters_num$Walks,hitters_num$Salary, 
+     xlab='Number of walks in the career', 
+     ylab='Annual salary ($ in thousands)',cex.lab=1.1)
+abline(lm(hitters_num$Salary ~ hitters_num$Walks), col="blue")
+
+#Plot Salary vs. Putouts
 plot(hitters_num$Hits,hitters_num$Salary, 
      xlab='Number of hits in the season', 
      ylab='Annual salary ($ in thousands)',cex.lab=1.1)
