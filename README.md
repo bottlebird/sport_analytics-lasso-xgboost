@@ -56,8 +56,7 @@ The in-sample and out-of-sample 𝑅!are 0.5603 and 0.4004 respectively. Conside
 
 ## Fit a restricted linear regression model selecting only the predictors with significance
 <br />
-Five predictors with p value under 0.05 were selected to fit a linear regression model. The insample and out-of-sample 𝑅! are 0.4337 and 0.42496 respectively. The accuracy of in-sampleprediction has worsened, whereas that of out-of-sample has improved slightly. These poor results are unexpected, considering only the predictors with high significance were selected to fit the model.
-
+Five predictors with p value under 0.05 were selected to fit a linear regression model.
 <br /><br />
 In-sample coefficients and 𝑅^2 Out-of-sample 𝑅^2<br />
 capture of result
