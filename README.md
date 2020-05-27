@@ -3,6 +3,14 @@ Sport analytics started to gain its popularity after the Oakland A's applied dat
 
 Here I predicted the salary of baseball players based on the dataset that contains information on 263 players from the MLB in 1986. The first column reports the player names, the second column reports the player annual salaries (in $’000), which I aim to predict. The other variables report four sets of variables: offensive statistics during the season, offensive statistics over the player’s career, defensive statistics, and team information.
 
+Here I used and compared three predictive techniques discussed in the following structure.
+
+1. Data Exploration
+2. Linear Regression
+3. Ridge Regression and LASSO
+4. XGBOOST
+
+
 ## Data Exploration
 Let's first extract only the numerical predictors from the dataset to look at their correlations between each other.<br />
 ```bash
@@ -12,59 +20,57 @@ ggcorrplot(round(cor(hitters_num),1), method="circle",
            tl.col = "black", tl.cex = 15, lab=TRUE)
 ```
 <p align="center">
-<img src="./img/1.a_1.png" width="400" align='middle'>
+<img src="./img/1.a_1.png" width="300" align='middle'>
 </p>
-For the player's statistics during the season (lower-left box cluster), AtBat(the number of times at bat) and Hits (the number of hits) are highly correlated with Runs (the number of runs). For the player's statistics during the career (upper-right box cluster), all the predictors are highly correlated to each other. 
 
-Considering the baseball's game rules, these observations are valid.
+The correlation matrix forms two box clusters based on the seasonal (lower-left) and career-long (upper-right) performance stats; the later shows a stronger correlation than the former. Based on the matrix, CRuns (Number of runs in the career) and CRBI (RBI: Number runs enabled in the career) are most correlated predictors to the salary.
 
-If we look at the predictors that are correlated to the salary, CRuns (Number of runs in the career) and CRBI (Number of runs enabled in the career) show relatively high correlation. However, it does not imply causation. There are several possible explanations: (a) A influences B; (b) B influences A; and (c) A and B are influenced by one or more additional variables.
+Note that this may not necessarily imply causation. There are several possible explanations: (a) A influences B; (b) B influences A; and (c) A and B are influenced by one or more additional variables.
 <br /><br />
-Now let's look at the p-values of the predictors to understand the relationships between the salary and other predictors.
+Now let's look at the p-values between the salary and other predictors.
 
 ```bash
 lm.mod <- lm(Salary ~., data = hitters_num)
 summary(lm.mod)
 ```
 <p align="center">
-<img src="./img/1.a_p.png" width="400" align='middle'>
+<img src="./img/1.a_p.png" width="300" align='middle'>
 </p>
-The predictors with the significance at the 95% level are AtBat, Hits, Walks, CRuns, CWalks, and PutOuts, meaning these predictors effect strongly on the salary variable.
+The predictors with the 95%-level significance are AtBat, Hits, Walks, CRuns, CWalks, and PutOuts, which could indicate their strong influences on the salary.
 
-The in-sample and out-of-sample R2 are 0.5603 and 0.4004 respectively. Given the dataset as visualized in Question a, these outcomes are expected.
+Based on the EDA (Exploratory Data Analysis), CRBI, AtBat, Hits, Walks, CRuns, CWalks, and PutOuts are considered important to the salary. Before building a linear model with these predictors, let's first normalize the data to align features in a same scale of importance.
 
-<br />
+```bash
+#Normalize and split data
+pp <- preProcess(hitters_raw, method=c("center", "scale"))
+Hitters <- predict(pp, hitters_raw)
+set.seed(15071)
+train.obs <- sort(sample(seq_len(nrow(Hitters)), 0.7*nrow(Hitters)))
+train <- Hitters[train.obs,2:21]
+test <- Hitters[-train.obs,2:21]
 
-<img src="./img/1.a_2.png" width="400" align='left'>
-<img src="./img/1.a_3.png" width="400">
-<br />
-Likewise, the player’s salary increases as the number of hits in the season increases.
-<br />
-<img src="./img/1.a_4.png" width="400">
+#Fit a restricted Linear Regression with variables with significance
+head(train)
+lin.mod <- lm(Salary ~ CRBI+AtBat+Hits+Walks+CRuns+CWalks+PutOuts,
+               data = train)
+pred.train = predict(lin.mod, newdata = train)
 
-<br />
+#Out-of-Sample R-squared
+pred.test = predict(lin.mod, newdata = test)
+SSE.test = sum((pred.test - test$Salary)^2)
+SST.test = sum((test$Salary - mean(train$Salary))^2)
+OSR2 = 1 - SSE.test/SST.test
+```
 
-## Fit a linear regression model using training set
+### **Prediction Accuracy**
+|Model|In-sample R-squared|Out-of-sample R-squared|
+|--|--|--|
+|Unrestricted model |**0.5603**|0.4003593|
+|Restricted model |0.5163| **0.4742655**|
 
-The data is normalized and split into a training set and a test set in a ratio of 7:3. The linear regression model was created using all the predictors of the training set. The summary of linear regression model indicates that variables with the high significance at the level of 95 % (p values < 0.05) are AtBat, Hits, Walks, CWalks, and PutOuts. These variables have the most impact on the salary variables. From the signs of coefficient values, we can learn that the number of times at bat in the season and the number of walks in the career are negatively correlated with the salary. Likewise, the numbers of hits, walks, putouts in the season are positively correlated with the salary.
-<br />
+The unrestricted model trained with all variables performs better with in-sample data, whereas the restricted model with variables with significance outperforms in predicting the out-of-sample data by avoiding the overfitting.
 
-In-sample 𝑅^2
-
-<br />
-The in-sample and out-of-sample 𝑅!are 0.5603 and 0.4004 respectively. Considering the large number of outliers observed in the visualization in a) and the value of residual standard error (0.7092) shown above, these outcomes are expected.
-
-## Fit a restricted linear regression model selecting only the predictors with significance
-<br />
-Five predictors with p value under 0.05 were selected to fit a linear regression model.
-<br /><br />
-In-sample coefficients and 𝑅^2 Out-of-sample 𝑅^2<br />
-capture of result
-<br /><br />
-Only includes only those significant variables with stars.
-Full -> remove insignificant variables -> remove multicollinear variable
-
-## Regularization
+## Ridge Regression and LASSO
 i) Train Ridge regression and LASSO models with 10-fold cross-validation
 
 Plots of cross-validated Mean Squared Error as a function of l:
