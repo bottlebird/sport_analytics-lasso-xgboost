@@ -25,10 +25,10 @@ plot(hitters_num$Walks,hitters_num$Salary,
 abline(lm(hitters_num$Salary ~ hitters_num$Walks), col="blue")
 
 #Plot Salary vs. Putouts
-plot(hitters_num$Hits,hitters_num$Salary, 
+plot(hitters_num$PutOuts,hitters_num$Salary, 
      xlab='Number of hits in the season', 
      ylab='Annual salary ($ in thousands)',cex.lab=1.1)
-abline(lm(hitters_num$Salary ~ hitters_num$Hits), col="blue")
+abline(lm(hitters_num$Salary ~ hitters_num$PutOuts), col="blue")
 
 #Normalize and split data
 pp <- preProcess(hitters_raw, method=c("center", "scale"))
@@ -52,7 +52,7 @@ OSR2
 
 #Fit a restricted Linear Regression with variables with significance
 head(train)
-lin.mod2 <- lm(Salary ~ AtBat+Hits+Walks+CWalks+PutOuts,
+lin.mod2 <- lm(Salary ~ CRBI+AtBat+Hits+Walks+CRuns+CWalks+PutOuts,
                data = train)
 pred.train = predict(lin.mod2, newdata = train)
 summary(lin.mod2)
@@ -72,6 +72,8 @@ y.train=train$Salary
 x.test=model.matrix(Salary~.-1,data=test) 
 y.test=test$Salary
 
+#install.packages('glmnet')
+library(glmnet)
 all.lambdas <- c(exp(seq(15, -10, -.1)))
 cv.ridge=cv.glmnet(x.train,y.train,alpha=0,lambda=all.lambdas, nfold=10)
 cv.lasso=cv.glmnet(x.train,y.train,alpha=1,lambda=all.lambdas, nfold=10)
